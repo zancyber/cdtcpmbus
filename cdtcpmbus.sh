@@ -1,8 +1,17 @@
 #!/bin/sh
 echo "----- start download plugin modbus tcp -------"
 if [ -d "/home/cudo/squash-agent/plugins/tcpmodbus" ]; then
-  echo "Folder sudah ada, silahkan cek jornal"
-  exit 1
+  echo "Folder /home/cudo/squash-agent/plugins/tcpmodbus sudah ada."
+  
+  # Cek status service
+  SERVICE_STATUS=$(systemctl is-active tcpmodbus.service)
+
+  if [ "$SERVICE_STATUS" = "active" ]; then
+    echo "Service tcpmodbus sedang berjalan (status: $SERVICE_STATUS). Silakan cek journal."
+    exit 1
+  else
+    echo "Service tcpmodbus tidak aktif (status: $SERVICE_STATUS), melanjutkan proses..."
+  fi
 fi
 
 echo "----- create folder -------"
