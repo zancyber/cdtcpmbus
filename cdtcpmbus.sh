@@ -22,7 +22,8 @@ fi
 
 yum install -y unzip jq
 wget https://github.com/zancyber/tcpmbus/archive/refs/heads/main.zip
-unzip main.zip -d /home/cudo/squash-agent/plugins/tcpmodbus
+unzip main.zip -d /home/cudo/squash-agent/plugins/
+mv tcpmbus-main tcpmodbus
 rm -rf main.zip
 cd /home/cudo/squash-agent/plugins/tcpmodbus
 find /home/cudo/squash-agent/plugins/tcpmodbus -type f -exec chmod -R 755 {} \;
