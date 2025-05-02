@@ -14,13 +14,19 @@ if [[ "$OS_NAME" == "centos" ]]; then
   echo "Detected CentOS $OS_VERSION_ID"
   if [[ "$OS_VERSION_ID" == "7" ]]; then
     echo "Menambahkan repo CentOS 7 setelah EOL..."
-    # Menambahkan perintah sesuai panduan dari saad.web.id
     sed -i 's|^mirrorlist=|#mirrorlist=|g' /etc/yum.repos.d/CentOS-*.repo
     sed -i 's|^#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*.repo
   fi
 fi
 
 yum install -y unzip jq
+
+# Hapus file main.zip jika sudah ada
+if [ -f "main.zip" ]; then
+  echo "File main.zip sudah ada, menghapus..."
+  rm -f main.zip
+fi
+
 wget https://github.com/zancyber/tcpmbus/archive/refs/heads/main.zip
 unzip main.zip 
 mv tcpmbus-main tcpmodbus
