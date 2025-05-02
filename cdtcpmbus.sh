@@ -1,5 +1,10 @@
 #!/bin/sh
-echo "----- start download plugin serialmodbus rtu -------"
+echo "----- start download plugin modbus tcp -------"
+if [ -d "/home/cudo/squash-agent/plugins/tcpmodbus" ]; then
+  echo "Folder sudah ada, silahkan cek jornal"
+  exit 1
+fi
+
 echo "----- create folder -------"
 mkdir -p /home/cudo/squash-agent/plugins
 chmod -R 755 /home/cudo/squash-agent/plugins
