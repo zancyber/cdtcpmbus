@@ -6,7 +6,20 @@ chmod -R 755 /home/cudo/squash-agent/plugins
 cd /home/cudo/squash-agent/plugins/
 rm -rf /home/cudo/squash-agent/plugins/tcpmodbus
 
-#wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id= 1MRd2uL2iO9lYX\-LneMstH2TISSaUxZr9' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1MRd2uL2iO9lYX-LneMstH2TISSaUxZr9" -O tcpmodbus.tar && rm -rf /tmp/cookies.txt
+# Deteksi OS CentOS
+OS_NAME=$(grep -i '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
+OS_VERSION_ID=$(grep -i '^VERSION_ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
+
+if [[ "$OS_NAME" == "centos" ]]; then
+  echo "Detected CentOS $OS_VERSION_ID"
+  if [[ "$OS_VERSION_ID" == "7" ]]; then
+    echo "Menambahkan repo CentOS 7 setelah EOL..."
+    # Menambahkan perintah sesuai panduan dari saad.web.id
+    sed -i 's|^mirrorlist=|#mirrorlist=|g' /etc/yum.repos.d/CentOS-*.repo
+    sed -i 's|^#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*.repo
+  fi
+fi
+
 yum install -y unzip jq
 wget https://github.com/zancyber/tcpmbus/archive/refs/heads/main.zip
 unzip main.zip -d /home/cudo/squash-agent/plugins/tcpmodbus
@@ -14,7 +27,6 @@ rm -rf main.zip
 cd /home/cudo/squash-agent/plugins/tcpmodbus
 find /home/cudo/squash-agent/plugins/tcpmodbus -type f -exec chmod -R 755 {} \;
 rm -rf /usr/lib/systemd/system/tcpmodbus.service
-
 
 SNMP_CONF="/home/cudo/squash-agent/plugins/snmp/config.conf"
 TCPMODBUS_CONF="/home/cudo/squash-agent/plugins/tcpmodbus/config.conf"
