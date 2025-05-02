@@ -22,7 +22,7 @@ fi
 
 yum install -y unzip jq
 wget https://github.com/zancyber/tcpmbus/archive/refs/heads/main.zip
-unzip main.zip -d /home/cudo/squash-agent/plugins/
+unzip main.zip 
 mv tcpmbus-main tcpmodbus
 rm -rf main.zip
 cd /home/cudo/squash-agent/plugins/tcpmodbus
